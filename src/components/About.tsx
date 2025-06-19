@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FaCamera, FaVideo, FaMagic, FaPhotoVideo } from 'react-icons/fa';
+
 
 export default function About() {
   return (
