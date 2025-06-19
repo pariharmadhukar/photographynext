@@ -1,5 +1,6 @@
 "use client";
 
+import Image from 'next/image';
 import React from 'react';
 import { motion } from 'framer-motion';
 
@@ -22,7 +23,7 @@ export default function About() {
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <img
+              <Image
                 src="/me2.jpeg"
                 alt="Photographer at work"
                 className="rounded-2xl shadow-lg object-cover w-full h-full max-h-[400px]"
@@ -38,11 +39,11 @@ export default function About() {
             >
               <h2 className="text-3xl md:text-4xl font-bold mb-4">About Me</h2>
               <p className="text-md md:text-lg leading-relaxed mb-4">
-                Hello! I'm <span className="font-semibold">Tirth</span>, a passionate photographer and visual artist specializing in storytelling through both still and motion pictures. With a strong command over Adobe Photoshop and Premiere Pro, I craft visually compelling content — from vibrant, retouched photographs to cinematic video edits.
+                Hello! I&apos;m <span className="font-semibold">Tirth</span>, a passionate photographer and visual artist specializing in storytelling through both still and motion pictures. With a strong command over Adobe Photoshop and Premiere Pro, I craft visually compelling content — from vibrant, retouched photographs to cinematic video edits.
 
               </p>
               <p className="text-md md:text-lg leading-relaxed">
-               My work is driven by emotion, precision, and a creative eye. Whether it's a candid moment or a full-scale production, I focus on delivering high-quality visuals that leave a lasting impression. Let’s transform your memories into timeless visual stories.
+               My work is driven by emotion, precision, and a creative eye. Whether it&apos;s a candid moment or a full-scale production, I focus on delivering high-quality visuals that leave a lasting impression. Let’s transform your memories into timeless visual stories.
               </p>
             </motion.div>
           </div>

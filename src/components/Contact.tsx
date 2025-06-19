@@ -7,18 +7,18 @@ import emailjs from '@emailjs/browser';
 export default function Contact() {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
    
     e.preventDefault();
 
     emailjs.sendForm(
       'service_f70uz7k',
       'template_zl2zttl',
-      e.target,
+      e.target as HTMLFormElement,
       'akqebsGZogrNNw6BH'
     ).then(
       (result) => {
@@ -31,7 +31,7 @@ export default function Contact() {
       }
     );
 
-    e.target.reset();
+    (e.target as HTMLFormElement).reset();
   };
 
   return (
@@ -86,7 +86,7 @@ export default function Contact() {
                 <textarea
                   name="message"
                   placeholder="Your Message"
-                  rows="5"
+                  rows={5}
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-[#412619]"
                   value={formData.message}
                   onChange={handleChange}

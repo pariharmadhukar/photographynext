@@ -2,6 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { FaCameraRetro, FaFilm, FaPenFancy, FaSlidersH } from 'react-icons/fa';
+import Image from 'next/image';
 
 const services = [
   {
@@ -54,7 +55,7 @@ const Services = () => {
           >
             {/* Image */}
             <div className="w-full h-52  md:h-72  md:w-1/2 rounded-xl overflow-hidden shadow-lg">
-              <img
+              <Image
                 src={service.image}
                 alt={service.title}
                 className=" object-cover rounded-xl"

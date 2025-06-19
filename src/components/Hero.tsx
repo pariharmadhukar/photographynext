@@ -10,7 +10,8 @@ import { motion } from "framer-motion";
 // 🌀 3D Model Component
 const Animated3D = () => {
   const texture = useTexture("./New.png");
-  const cylRef = useRef();
+  const cylRef = useRef<THREE.Mesh>(null);
+
 
   useFrame((_, delta) => {
     if (cylRef.current) cylRef.current.rotation.y += delta;
@@ -55,7 +56,9 @@ const TaglineTyping = () => (
 );
 
 // 🌐 Canvas Wrapper
-const ModelCanvas = ({ cameraPos = [0, 0, 5] }) => (
+const ModelCanvas = ({ cameraPos = [0, 0, 5] as [number, number, number] }) => (
+
+
   <Canvas camera={{ fov: 30, position: cameraPos }}>
     <Suspense fallback={null}>
       <OrbitControls enableZoom={false} />

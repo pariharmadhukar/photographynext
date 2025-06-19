@@ -46,7 +46,8 @@ const photos = [
 ];
 
 const PhotoGrid = () => {
-  const [selectedPhoto, setSelectedPhoto] = useState(null);
+  const [selectedPhoto, setSelectedPhoto] = useState<{ id: number; url: string } | null>(null);
+
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -90,6 +91,7 @@ const PhotoGrid = () => {
               transition={{ duration: 0.5, delay: index * 0.05 }}
               className="relative cursor-pointer"
               onClick={() => setSelectedPhoto(photo)}
+
             >
               <div
                 className="relative mx-auto overflow-hidden rounded-xl shadow-md"
