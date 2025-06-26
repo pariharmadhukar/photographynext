@@ -3,17 +3,16 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import { db } from "@/lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
-const reels = [
-  { id: 1, embedUrl: "/assets/Video-138.mp4" },
-  { id: 2, embedUrl: "/assets/Video-487.mp4" },
-  { id: 3, embedUrl: "/assets/Video-985.mp4" },
-  { id: 4, embedUrl: "/assets/Video-182.mp4" },
-  { id: 5, embedUrl: "/assets/Video-262.mp4" },
-  { id: 6, embedUrl: "/assets/Video-901.mp4" },
-];
+interface Reels {
+  id: number;
+  embedUrl: string;
+}
 
 const InstagramReelsGrid = () => {
+  const [Reels, setReels] = useState<Reels[]>([]);
   const [visibleCount, setVisibleCount] = useState(6);
   const [activeVideo, setActiveVideo] = useState<string | null>(null);
 
@@ -22,6 +21,21 @@ const InstagramReelsGrid = () => {
       setVisibleCount(window.innerWidth <= 768 ? 2 : 6);
     };
     updateVisible();
+
+    const fetchReels = async () => {
+      try {
+        const snapshot = await getDoc(doc(db, "reels", "main"));
+        if (snapshot.exists()) {
+          const data = snapshot.data();
+          setReels(data.reels || []);
+        }
+      } catch (error) {
+        console.error("Error fetching Reels:", error);
+      }
+    };
+
+    fetchReels();
+
     window.addEventListener("resize", updateVisible);
     return () => window.removeEventListener("resize", updateVisible);
   }, []);
@@ -38,7 +52,7 @@ const InstagramReelsGrid = () => {
       </motion.h2>
 
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3">
-        {reels.slice(0, visibleCount).map((reel) => (
+        {Reels.slice(0, visibleCount).map((reel) => (
           <motion.div
             key={reel.id}
             className="rounded-xl overflow-hidden shadow-lg group relative cursor-pointer"

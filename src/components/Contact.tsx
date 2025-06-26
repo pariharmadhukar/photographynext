@@ -1,36 +1,48 @@
 "use client";
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaInstagram, FaWhatsapp, FaPhone } from 'react-icons/fa';
-import emailjs from '@emailjs/browser';
+
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { FaInstagram, FaWhatsapp, FaPhone } from "react-icons/fa";
+import emailjs from "@emailjs/browser";
+import { db } from "@/lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
 export default function Contact() {
-  const [formData, setFormData] = useState({ name: '', email: '', message: '' });
+  const [formData, setFormData] = useState({ name: "", email: "", message: "" });
+  const [subtitle, setSubtitle] = useState("");
+  const [links, setLinks] = useState({
+    instagram: "https://www.instagram.com/",
+    whatsapp: "https://wa.me/",
+    phone: "tel:+91"
+  });
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const snap = await getDoc(doc(db, "contact", "main"));
+      if (snap.exists()) {
+        const data = snap.data();
+        setSubtitle(data.subtitle || "");
+        setLinks(data.socialLinks || {});
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-   
     e.preventDefault();
-
     emailjs.sendForm(
-      'service_f70uz7k',
-      'template_zl2zttl',
+      "service_f70uz7k",
+      "template_zl2zttl",
       e.target as HTMLFormElement,
-      'akqebsGZogrNNw6BH'
+      "akqebsGZogrNNw6BH"
     ).then(
-      (result) => {
-        console.log('SUCCESS!', result.text);
-        alert('Message sent successfully!');
-      },
-      (error) => {
-        console.log('FAILED...', error);
-        alert('Message failed to send.');
-      }
+      () => alert("Message sent successfully!"),
+      () => alert("Message failed to send.")
     );
-
     (e.target as HTMLFormElement).reset();
   };
 
@@ -42,26 +54,26 @@ export default function Contact() {
         transition={{ duration: 0.8 }}
         className="border-[#412619] border-2 rounded-lg p-6 md:p-10 shadow-lg shadow-[#412619] bg-white w-full max-w-6xl"
       >
-        <section className="bg-[#f9f5f3] py-8 md:py-12 px-4 md:px-8" >
+        <section className="bg-[#f9f5f3] py-8 md:py-12 px-4 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10 items-start">
-            {/* Left Side - Social Links */}
+            {/* Left Side */}
             <div className="flex flex-col justify-center items-start space-y-6">
               <h2 className="text-3xl sm:text-4xl font-bold text-[#412619]">Connect with Me</h2>
-              <p className="text-[#5e463c]">Feel free to reach out through any of these platforms.</p>
+              <p className="text-[#5e463c]">{subtitle}</p>
               <div className="flex gap-6 text-3xl text-[#412619]">
-                <a href="https://www.instagram.com/tirth_photography11?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" className="hover:text-pink-500">
+                <a href={links.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-pink-500">
                   <FaInstagram />
                 </a>
-                <a href="https://wa.me/919624904560" target="_blank" rel="noopener noreferrer" className="hover:text-green-500">
+                <a href={links.whatsapp} target="_blank" rel="noopener noreferrer" className="hover:text-green-500">
                   <FaWhatsapp />
                 </a>
-                <a href="tel:+919624904560" className="hover:text-blue-600">
+                <a href={links.phone} className="hover:text-blue-600">
                   <FaPhone />
                 </a>
               </div>
             </div>
 
-            {/* Right Side - Contact Form */}
+            {/* Right Side - Form */}
             <div className="bg-white p-4 md:p-6 rounded-xl shadow-md w-full">
               <h3 className="text-2xl font-semibold mb-4 text-[#412619]">Send a Message</h3>
               <form onSubmit={handleSubmit} className="space-y-4 text-black">

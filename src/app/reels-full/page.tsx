@@ -1,20 +1,37 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import { db } from "@/lib/firebase";
+import { doc, getDoc } from "firebase/firestore";
 
-const reels = [
-  { id: 1, embedUrl: "/assets/Video-138.mp4" },
-  { id: 2, embedUrl: "/assets/Video-487.mp4" },
-  { id: 3, embedUrl: "/assets/Video-985.mp4" },
-  { id: 4, embedUrl: "/assets/Video-182.mp4" },
-  { id: 5, embedUrl: "/assets/Video-262.mp4" },
-  { id: 6, embedUrl: "/assets/Video-901.mp4" },
-  
-];
+// Define the Reels type
+type Reels = {
+  id: string;
+  embedUrl: string;
+};
 
 const ReelsFull = () => {
+
+  const [Reels, setReels] = useState<Reels[]>([]);
+
+  useEffect(()=>{
+const fetchReels = async () => {
+      try {
+        const snapshot = await getDoc(doc(db, "reels", "main"));
+        if (snapshot.exists()) {
+          const data = snapshot.data();
+          setReels(data.reels || []);
+        }
+      } catch (error) {
+        console.error("Error fetching Reels:", error);
+      }
+    };
+
+    fetchReels();
+  },[])
+
   return (
     <div className="min-h-screen bg-[#fffaf7] px-4 py-8">
       <Link href="/" className="flex items-center mb-6 text-[#412619]">
@@ -23,7 +40,7 @@ const ReelsFull = () => {
       </Link>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {reels.map((reel) => (
+        {Reels.map((reel) => (
           <div
             key={reel.id}
             className="rounded-xl overflow-hidden shadow-md relative"
