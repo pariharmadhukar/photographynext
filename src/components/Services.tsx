@@ -25,6 +25,7 @@ const Services = () => {
     fetchServices();
   }, []);
 
+  if (!services) return <div>Loading...</div>;
   return (
     <section id='services' className="bg-[#fffaf7] py-20 px-6 md:px-20">
       <div className="text-center mb-16">
