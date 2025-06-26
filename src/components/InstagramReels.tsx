@@ -39,7 +39,7 @@ const InstagramReelsGrid = () => {
     window.addEventListener("resize", updateVisible);
     return () => window.removeEventListener("resize", updateVisible);
   }, []);
-
+  if (!Reels) return <div>Loading...</div>;
   return (
     <section className="w-full min-h-screen bg-[#fdf8f5] py-24 px-6">
       <motion.h2
