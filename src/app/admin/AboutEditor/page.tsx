@@ -11,7 +11,7 @@ interface AboutData {
   name: string;
   paragraph1: string;
   imageUrl: string;
-  public_id: string; // public_id is optional but we treat it as potentially existing
+  public_id: string;
 }
 
 export default function AdminAboutEditor() {
@@ -23,7 +23,6 @@ export default function AdminAboutEditor() {
     public_id: "",
   });
 
-  // useEffect to fetch data on initial mount
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -35,10 +34,9 @@ export default function AdminAboutEditor() {
             name: data.name || "",
             paragraph1: data.paragraph1 || "",
             imageUrl: data.imageUrl || "",
-            public_id: data.public_id || "", // Ensure public_id is fetched
+            public_id: data.public_id || "",
           });
         } else {
-          // Initialize with default values if no document exists
           setAbout({
             title: "About Me",
             name: "Your Name",
@@ -54,12 +52,9 @@ export default function AdminAboutEditor() {
       }
     };
     fetchData();
-  }, []); // Empty dependency array means this runs once on mount
+  }, []);
 
-  // useEffect to log 'about' state whenever it changes
   useEffect(() => {
-    // This logs the 'about' state *after* it has been updated and the component re-rendered.
-    // You should see the new public_id here after an upload.
     console.log("Current 'about' section state:", about);
   }, [about]);
 
@@ -69,12 +64,7 @@ export default function AdminAboutEditor() {
     setAbout({ ...about, [e.target.name]: e.target.value });
   };
 
-
-
   const handleUpload = async (newImageUrl: string, newPublicId: string) => {
-   
-
-    // Now update the state with the new image details
     setAbout((prev) => ({
       ...prev,
       imageUrl: newImageUrl,
@@ -124,11 +114,18 @@ export default function AdminAboutEditor() {
           />
 
           <CldUploadWidget
-            uploadPreset="aboutimage" // Ensure this preset exists in your Cloudinary account
+            uploadPreset="aboutimage"
             onSuccess={(result) => {
-              const info = (result as any).info;
-              if (info?.secure_url && info?.public_id) {
-                // Pass the new URL and new public_id to handleUpload
+              if (
+                typeof result?.info === "object" &&
+                result.info !== null &&
+                "secure_url" in result.info &&
+                "public_id" in result.info
+              ) {
+                const info = result.info as {
+                  secure_url: string;
+                  public_id: string;
+                };
                 handleUpload(info.secure_url, info.public_id);
               } else {
                 alert("Upload failed: Missing secure URL or public ID.");
@@ -136,9 +133,7 @@ export default function AdminAboutEditor() {
             }}
             onError={(error) => {
               console.error("Cloudinary upload error:", error);
-              alert(
-                "❌ Image upload failed. Please check console for details."
-              );
+              alert("❌ Image upload failed. Please check console for details.");
             }}
           >
             {({ open }) => (
