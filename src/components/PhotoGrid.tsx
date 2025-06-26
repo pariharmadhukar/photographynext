@@ -44,7 +44,7 @@ const PhotoGrid = () => {
     fetchGallery();
   }, []);
 
-  
+  if (!Gallery) return <div>Loading...</div>;
 
 
   return (
