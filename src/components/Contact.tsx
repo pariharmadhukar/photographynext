@@ -45,7 +45,7 @@ export default function Contact() {
     );
     (e.target as HTMLFormElement).reset();
   };
-
+if (!links) return <div>Loading...</div>;
   return (
     <div id="contact" className="flex items-center justify-center min-h-screen w-full bg-white px-4 py-8">
       <motion.div
