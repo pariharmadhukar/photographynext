@@ -30,7 +30,7 @@ export default function About() {
   if (!aboutData) return <div>Loading...</div>;
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-white px-4 md:px-10 pt-10 pb-16">
+    <section id='about' className="flex items-center justify-center min-h-screen bg-white px-4 md:px-10 pt-10 pb-16">
       <motion.div className="border-[#412619] border-2 rounded-lg p-6 md:p-10 shadow-lg shadow-[#412619] w-full max-w-6xl bg-white">
         <section className="bg-[#faf7f5] py-10 px-4 md:px-10 rounded-lg">
           <div className="flex flex-col-reverse md:flex-row items-center gap-10">
@@ -55,6 +55,6 @@ export default function About() {
           </div>
         </section>
       </motion.div>
-    </div>
+    </section>
   );
 }
