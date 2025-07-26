@@ -46,8 +46,8 @@ const PhotoGrid = () => {
 
   if (!Gallery) return <div>Loading...</div>;
 
-
   return (
+    { Gallery && 
     <section id="gallery" className="pt-12 px-4 bg-[#faf7f5]">
       <motion.h2
         initial={{ opacity: 0, y: 20 }}
@@ -142,7 +142,7 @@ const PhotoGrid = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </section>
+    </section> }
   );
 };
 
