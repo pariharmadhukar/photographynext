@@ -28,13 +28,13 @@ const Services = () => {
   if (!services) return <div>Loading...</div>;
   return (
     <section id='services' className="bg-[#fffaf7] py-20 px-6 md:px-20">
-      <div className="text-center mb-16">
+      { services && <div className="text-center mb-16">
         <h2 className="text-4xl font-bold text-[#412619] mb-4">My Services</h2>
         <p className="text-lg text-gray-600 max-w-xl mx-auto">
           We provide premium media production services using the best industry tools like Adobe Premiere Pro and Photoshop.
         </p>
-      </div>
-
+      </div> }
+      
       <div className="space-y-20">
         {services.map((service, index) => (
           <motion.div
