@@ -9,7 +9,7 @@ const Footer = () => {
         
         {/* Left Side - Copyright */}
         <p className="text-sm text-center md:text-left">
-          © {new Date().getFullYear()} M&T Logix. All rights reserved.
+          © 2025 eMTrix. All rights reserved.
         </p>
       </div>
     </footer>
